@@ -127,3 +127,15 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore Mac system files
+.DS_store
+
+# Ignore files related to API keys
+.env
+
+# Ignore .vscode folder
+.vscode
+
+# Mic files to ignore
+database.db
