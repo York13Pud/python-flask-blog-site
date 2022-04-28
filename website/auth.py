@@ -4,6 +4,7 @@ from website import db
 from website.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 # --- Setup the auth Blueprint:
 auth = Blueprint(name = "auth",
                   import_name = __name__,
