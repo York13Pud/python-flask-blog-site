@@ -3,5 +3,12 @@
 {% block title %}Create A Post{% endblock %}
 
 {% block content %}
-    <h1>Create A Post</h1>    
+<h1 align="ceter">Create A Post</h1>
+
+<form method="POST">
+    <textarea name="text" id="text" class="form-control"></textarea>
+    <br />
+    <button type="submit" class="btn btn-lg btn-dark">Create Post</button>
+</form>
+
 {% endblock %}

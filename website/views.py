@@ -1,5 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash, request
 from flask_login import login_required, current_user
+from website import db
+from website.models import Post
+
 
 # --- Setup the views Blueprint:
 views = Blueprint(name = "views",
@@ -11,5 +14,24 @@ views = Blueprint(name = "views",
 @views.route("/home")
 @login_required
 def home():
-    """This is the view for the home page. No parameters/arguments are defined/required"""
-    return render_template("index.html", name = current_user.username)
+    """This is the view for the home page."""
+    return render_template("index.html", user=current_user)
+
+
+@views.route("/create-post", methods=["GET", "POST"])
+@login_required
+def create_post():
+    """This is the view for the page."""
+    if request.method == "POST":
+        text = request.form.get("text")
+        
+        if not text:
+            flash("Post is blank. Please enter some text.", category = "error")
+        else:
+            new_post = Post(text = text, author = current_user.id)
+            db.session.add(new_post)
+            db.session.commit()
+            flash("Post created.", category = "success")
+        
+    return render_template("create_post.html", user=current_user)
+
