@@ -25,18 +25,22 @@ def create_post():
     """This is the view for the page."""
     if request.method == "POST":
         text = request.form.get("text")
+        title = request.form.get("title")
         
         if not text:
             flash("Post is blank. Please enter some text.", category = "error")
         
+        elif not title:
+            flash("Title is blank. Please enter a title.", category = "error")
+            
         else:
-            new_post = Post(text = text, author = current_user.id)
+            new_post = Post(title = title, text = text, author = current_user.id)
             
             db.session.add(new_post)
             db.session.commit()
             flash("Post created.", category = "success")
             
-            redirect(url_for("views.home"))
+            return redirect(url_for("views.home"))
             
     return render_template("create_post.html", user=current_user)
 
