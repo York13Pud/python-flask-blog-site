@@ -9,12 +9,19 @@
     {% for post in posts %}
     
         <br />
-        <div class="container-fluid border border-dark">
-            <a href="{{ url_for("views.home") }}/{{ post.id }}">
+        <div class="card border-dark">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <a href="{{ url_for("views.home") }}/{{ post.id }}">
+                    <h3>{{ post.text }}</h3>
+                </a>
+            </div>
+            <div class="card-body d-flex justify-content-between align-items-center"
                 <h2>{{ post.text }}</h2>
-            </a>
-            <p>Created By: {{ post.user.username }}</p>
-            <p>Create On: {{ post.date_created }}</p>    
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <p>Created By: {{ post.user.username }}</p>
+                <p>Created On: {{ post.date_created }}</p>
+            </div>
         </div>
 
     {% endfor %}
