@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash, request
+from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from website import db
 from website.models import Post
@@ -15,7 +15,8 @@ views = Blueprint(name = "views",
 @login_required
 def home():
     """This is the view for the home page."""
-    return render_template("index.html", user=current_user)
+    posts = Post.query.all()
+    return render_template("index.html", user = current_user, posts = posts)
 
 
 @views.route("/create-post", methods=["GET", "POST"])
@@ -27,11 +28,15 @@ def create_post():
         
         if not text:
             flash("Post is blank. Please enter some text.", category = "error")
+        
         else:
             new_post = Post(text = text, author = current_user.id)
+            
             db.session.add(new_post)
             db.session.commit()
             flash("Post created.", category = "success")
-        
+            
+            redirect(url_for("views.home"))
+            
     return render_template("create_post.html", user=current_user)
 

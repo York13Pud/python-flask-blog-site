@@ -3,5 +3,22 @@
 {% block title %}Welcome{% endblock %}
 
 {% block content %}
-    <h1>Hello there, {{ user.username }}</h1>    
+
+<div id="posts">
+    
+    {% for post in posts %}
+    
+        <br />
+        <div class="container-fluid border border-dark">
+            <a href="{{ url_for("views.home") }}/{{ post.id }}">
+                <h2>{{ post.text }}</h2>
+            </a>
+            <p>Created By: {{ post.user.username }}</p>
+            <p>Create On: {{ post.date_created }}</p>    
+        </div>
+
+    {% endfor %}
+
+</div>
+
 {% endblock %}
