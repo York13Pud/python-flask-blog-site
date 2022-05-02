@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from website import db
-from website.models import Post
+from website.models import Post, User
 
 
 # --- Setup the views Blueprint:
@@ -73,3 +73,18 @@ def edit_post(post_id):
 @login_required
 def read_post(post_id):
     return redirect(url_for("views.home"))
+
+
+@views.route("/posts/<string:username>")
+@login_required
+def posts(username):
+    """This is the view for a particular user / authors blog posts."""
+    user = User.query.filter_by(username = username).first()
+    
+    if not user:
+        flash(f"Username does not exist.", category = "error")
+        return redirect(url_for("views.home"))
+    
+    posts = Post.query.filter_by(author = user.id).all()
+        
+    return render_template("index.html", user = current_user, posts = posts)

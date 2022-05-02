@@ -53,18 +53,24 @@ def register():
         
         if email_exists:
             flash("This email address is already in use.", category = "error")
+            
         elif username_exists:
             flash("The username is already in use.", category = "error")
+            
         elif password1 != password2:
             flash("The passwords do not match.", category = "error")
+            
         elif len(username) < 5:
             flash("The username is too short (5 or more charecters needed).", category = "error")
+            
         elif len(password1) < 6:
             flash("The username is too short (5 or more charecters needed).", category = "error")
+            
         else:
             new_user = User(email = email,
                             username = username,
                             password = generate_password_hash(password1, method = "sha256"))
+            
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember = True)
