@@ -47,19 +47,20 @@ def create_post():
 @views.route("/delete/<int:post_id>", methods=["GET"])
 @login_required
 def delete_post(post_id):
-    post_to_delete = Post.query.get(post_id)
+    post_to_delete = Post.query.filter_by(id=post_id).first()
     
-    if post_to_delete.author == current_user.id:
+    if not post_to_delete:
+        flash(f"Post {post_id} does not exist.", category = "error")
         
+    elif post_to_delete.author == current_user.id:
         db.session.delete(post_to_delete)
         db.session.commit()
         flash(f"Post {post_id} has been deleted.", category = "success")
     
-        return redirect(url_for("views.home"))
-    
     else:
         flash(f"You are not authorised to delete that post.", category = "error")
-        return redirect(url_for("views.home"))
+    
+    return redirect(url_for("views.home"))
 
 
 @views.route("/edit/<int:post_id>", methods=["GET"])
