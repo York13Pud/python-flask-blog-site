@@ -44,3 +44,31 @@ def create_post():
             
     return render_template("create_post.html", user=current_user)
 
+@views.route("/delete/<int:post_id>", methods=["GET"])
+@login_required
+def delete_post(post_id):
+    post_to_delete = Post.query.get(post_id)
+    
+    if post_to_delete.author == current_user.id:
+        
+        db.session.delete(post_to_delete)
+        db.session.commit()
+        flash(f"Post {post_id} has been deleted.", category = "success")
+    
+        return redirect(url_for("views.home"))
+    
+    else:
+        flash(f"You are not authorised to delete that post.", category = "error")
+        return redirect(url_for("views.home"))
+
+
+@views.route("/edit/<int:post_id>", methods=["GET"])
+@login_required
+def edit_post(post_id):
+    return redirect(url_for("views.home"))
+
+
+@views.route("/post/<int:post_id>", methods=["GET"])
+@login_required
+def read_post(post_id):
+    return redirect(url_for("views.home"))
