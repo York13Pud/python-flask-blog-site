@@ -86,3 +86,9 @@ def delete_post(post_id):
 @login_required
 def edit_post(post_id):
     return redirect(url_for("views.home"))
+
+
+@views.route("/create-comment/<int:post_id>", methods=["GET", "POST"])
+@login_required
+def create_comment(post_id):
+    pass

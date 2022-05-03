@@ -16,15 +16,24 @@
                 </a>
                 <p class="text-black">
                     {% if post.author == user.id%}
-                    <span class="bi bi-pencil">  </span><a class="text-black" href="{{ url_for("views.edit_post", post_id=post.id) }}">Edit</a> | 
-                    <span class="bi bi-x-square">  </span><a class="text-black" href="{{ url_for("views.delete_post", post_id=post.id) }}">Delete</a>
+                    <span class="bi bi-pencil">  </span><a class="text-black" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a> | 
+                    <span class="bi bi-x-square">  </span><a class="text-black" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
                     {% endif %}
                 </p>
 
             </div>
-            <div class="card-body d-flex justify-content-between align-items-center"
-                <h2>{{ post.text }}</h2>
+            <div class="card-body justify-content-between align-items-center">
+                <div class="card-text">
+                    <p>{{ post.text }}</p>
+                    <hr>
+                    <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
+                        <input class="form-control" id="text" name="text" placeholder="Enter your comment here." />
+                        <button class="btn btn-dark" type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
+            
+
             <div class="card-footer text-muted d-flex justify-content-between align-items-center">
                 <p>Created By: <a class="text-black" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></p>
                 <p>Created On: {{ post.date_created }}</p>
