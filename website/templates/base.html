@@ -21,13 +21,14 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link text-white" href="/"><span class="bi bi-house"></span> Home</a>
+                    <a class="nav-item nav-link text-white" href="{{ url_for("views.home") }}"><span class="bi bi-house"></span> Home</a>
                     {% if user.is_authenticated %}
-                        <a class="nav-item nav-link text-white" href="/create-post"><span class="bi bi-pencil"></span> Write A Post</a>
-                        <a class="nav-item nav-link text-white" href="/logout"><span class="bi bi-box-arrow-left"></span> Logout</a>
+                        <a class="nav-item nav-link text-white" href="{{ url_for("views.posts", username = current_user.username) }}"><span class="bi bi-list-ul"></span> My Articles</a>
+                        <a class="nav-item nav-link text-white" href="{{ url_for("views.create_post") }}"><span class="bi bi-pencil"></span> New Article</a>
+                        <a class="nav-item nav-link text-white" href="{{ url_for("auth.logout") }}"><span class="bi bi-box-arrow-left"></span> Logout</a>
                     {% else %}
-                        <a class="nav-item nav-link text-white" href="/register"><span class="bi bi-pencil"></span> Register</a>
-                        <a class="nav-item nav-link text-white" href="/login"><span class="bi bi-box-arrow-in-right"></span> Login</a>
+                        <a class="nav-item nav-link text-white" href="{{ url_for("auth.register") }}"><span class="bi bi-pencil"></span> Register</a>
+                        <a class="nav-item nav-link text-white" href="{{ url_for("auth.login") }}"><span class="bi bi-box-arrow-in-right"></span> Login</a>
                     {% endif %}
                 </div>
             </div> 
