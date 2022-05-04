@@ -26,6 +26,22 @@
                 <div class="card-text">
                     <p>{{ post.text }}</p>
                     <hr>
+
+                    <div class="collapse" id="comment-{{ post.id }}">
+                        <div class="card">
+                            <div class="card-body" id="comments-expanded-{{ post.id }}">
+                                {% for comment in post.comments%}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p><a class="text-black" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }}: {{ comment.text }}</a></p>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">{{ comment.date }}</small>
+                                    </div>
+                                {% endfor %}
+                            </div>    
+                        </div>
+                    </div>
+                    <hr>
                     <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
                         <input class="form-control" id="text" name="text" placeholder="Enter your comment here." />
                         <button class="btn btn-dark" type="submit">Submit</button>

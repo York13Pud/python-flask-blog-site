@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from website import db
-from website.models import Post, User
+from website.models import Post, User, Comment
 
 
 # --- Setup the views Blueprint:
@@ -15,6 +15,7 @@ views = Blueprint(name = "views",
 def home():
     """This is the view for the home page."""
     posts = Post.query.all()
+    
     return render_template("index.html", user = current_user, posts = posts)
 
 
@@ -88,7 +89,43 @@ def edit_post(post_id):
     return redirect(url_for("views.home"))
 
 
-@views.route("/create-comment/<int:post_id>", methods=["GET", "POST"])
+@views.route("/create-comment/<int:post_id>", methods=["POST"])
 @login_required
 def create_comment(post_id):
-    pass
+    comment_text = request.form.get("text")
+    
+    if not comment_text:
+        flash("Please enter a comment.", category = "error")
+    
+    else:
+        post = Post.query.filter_by(id = post_id)
+        if post:
+            new_comment = Comment(text = comment_text, author = current_user.id, post_id = post_id)
+            
+            db.session.add(new_comment)
+            db.session.commit()
+            flash("Comment created.", category = "success")
+        
+        else:
+            flash("Post does not exist.", category = "error")
+        
+    return redirect(url_for("views.home"))
+
+
+@views.route("/delete-comment/<int:comment_id>", methods=["GET"])
+@login_required
+def delete_comment(comment_id):
+    # post_to_delete = Post.query.filter_by(id=post_id).first()
+    
+    # if not post_to_delete:
+    #     flash(f"Post {post_id} does not exist.", category = "error")
+        
+    # elif post_to_delete.author == current_user.id:
+    #     db.session.delete(post_to_delete)
+    #     db.session.commit()
+    #     flash(f"Post {post_id} has been deleted.", category = "success")
+    
+    # else:
+    #     flash(f"You are not authorised to delete that post.", category = "error")
+    
+    return redirect(url_for("views.home"))
