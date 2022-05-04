@@ -115,17 +115,17 @@ def create_comment(post_id):
 @views.route("/delete-comment/<int:comment_id>", methods=["GET"])
 @login_required
 def delete_comment(comment_id):
-    # post_to_delete = Post.query.filter_by(id=post_id).first()
+    comment_to_delete = Comment.query.filter_by(id=comment_id).first()
     
-    # if not post_to_delete:
-    #     flash(f"Post {post_id} does not exist.", category = "error")
+    if not comment_to_delete:
+        flash(f"Comment {comment_id} does not exist.", category = "error")
         
-    # elif post_to_delete.author == current_user.id:
-    #     db.session.delete(post_to_delete)
-    #     db.session.commit()
-    #     flash(f"Post {post_id} has been deleted.", category = "success")
+    elif current_user.id != comment_to_delete.author and current_user.id != comment_to_delete.post.author:
+        flash(f"You are not authorised to delete that comment.", category = "error")
     
-    # else:
-    #     flash(f"You are not authorised to delete that post.", category = "error")
+    else:
+        db.session.delete(comment_to_delete)
+        db.session.commit()
+        flash(f"Comment {comment_id} has been deleted.", category = "success")
     
     return redirect(url_for("views.home"))
