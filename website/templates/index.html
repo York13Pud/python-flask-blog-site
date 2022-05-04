@@ -9,15 +9,16 @@
     {% for post in posts %}
     
         <br />
+
         <div class="card border-dark">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <a class="text-black" href="{{ url_for("views.read_post", post_id = post.id) }}">
+            <div class="card-header d-flex justify-content-between align-items-center bg-dark">
+                <a class="text-light" href="{{ url_for("views.read_post", post_id = post.id) }}">
                     <h3>{{ post.title }}</h3>
                 </a>
-                <p class="text-black">
+                <p class="text-light">
                     {% if post.author == user.id%}
-                    <span class="bi bi-pencil">  </span><a class="text-black" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a> | 
-                    <span class="bi bi-x-square">  </span><a class="text-black" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
+                    <span class="bi bi-pencil">  </span><a class="text-light" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a> | 
+                    <span class="bi bi-x-square">  </span><a class="text-light" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
                     {% endif %}
                 </p>
 
@@ -25,39 +26,57 @@
             <div class="card-body justify-content-between align-items-center">
                 <div class="card-text">
                     <p>{{ post.text }}</p>
-                    <hr>
+                    
+                    
 
                     <div class="collapse" id="comment-{{ post.id }}">
                         <div class="card">
                             <div class="card-body" id="comments-expanded-{{ post.id }}">
                                 {% for comment in post.comments%}
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p><a class="text-black" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }}: {{ comment.text }}</a></p>
+                                        <div>
+                                            <a class="text-black" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }} Wrote:</a>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">{{ comment.date_created }}</small>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <small class="text-muted">{{ comment.date }}</small>
+                                    <hr />
+                                    <div class="">
+                                        <p>{{ comment.text }}</p>
                                     </div>
                                 {% endfor %}
                             </div>    
                         </div>
+                        <br>
                     </div>
+                    <p class="text">
+                    {% if post.comments | length > 0 %}
+                        <a data-bs-toggle="collapse" href="#comment-{{ post.id }}" role="button">
+                            <small class="text-black">Show Comments ({{ post.comments | length }})</small>
+                        </a>
+                    {% else %}
+                        <small class="text-muted">No comments for this article</small>
+                    {% endif %}
+                    </p>
                     <hr>
+
                     <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
                         <input class="form-control" id="text" name="text" placeholder="Enter your comment here." />
                         <button class="btn btn-dark" type="submit">Submit</button>
                     </form>
+                
                 </div>
             </div>
             
 
-            <div class="card-footer text-muted d-flex justify-content-between align-items-center">
-                <p>Created By: <a class="text-black" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></p>
+            <div class="card-footer text-muted d-flex justify-content-between align-items-center text-light bg-dark">
+                <p>Created By: <a class="text-light text-muted" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></p>
                 <p>Created On: {{ post.date_created }}</p>
             </div>
         </div>
-
+        <br />
     {% endfor %}
-
 </div>
 
 {% endblock %}
