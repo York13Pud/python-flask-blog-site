@@ -11,14 +11,15 @@
         <br />
 
         <div class="card border-dark">
-            <div class="card-header d-flex justify-content-between align-items-center bg-dark">
-                <a class="text-light" href="{{ url_for("views.read_post", post_id = post.id) }}">
+            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom bg-dark">
+                <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
                     <h6>{{ post.title }}</h6>
                 </a>
                 <h6 class="text-light">
                     {% if post.author == user.id%}
-                    <span class="bi bi-pencil">  </span><a class="text-light" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a> | 
-                    <span class="bi bi-x-square">  </span><a class="text-light" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
+                    <span class="bi bi-pencil">  </span><a class="text-light text-decoration-none" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a>
+                    <span class="link-break-spacing">|</span>
+                    <span class="bi bi-x-square">  </span><a class="text-light text-decoration-none" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
                     {% endif %}
                 </h6>
 
@@ -83,16 +84,16 @@
             
 
             <div class="card-footer d-flex justify-content-between align-items-center text-light bg-dark">
-                <h6>Created By: <a class="text-light" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
+                <h6>Created By: <a class="text-light text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
                 <h6>
-                    <a class="text-light" href="{{ url_for("views.like", post_id = post.id) }}">
+                    <a class="text-light text-decoration-none" href="{{ url_for("views.like", post_id = post.id) }}">
                         {% if post.likes | length == 0 %}
-                            <i class="bi bi-heart"></i> ({{post.likes | length }})</a>
+                            <i class="fa-regular fa-heart"></i> {{post.likes | length }}</a>
                         {% else %}
-                            <i class="bi bi-heart-fill"></i> ({{post.likes | length }})</a>
-                        {% endif %}
-                     | 
-                    <a class="text-light" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments ({{ post.comments | length }})</a>
+                            <i class="fa-solid fa-heart"></i> {{post.likes | length }}</a>
+                        {% endif %} 
+                    <span class="link-break-spacing">|</span>
+                    <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments {{ post.comments | length }}</a>
                 </h6>
             </div>
         </div>
