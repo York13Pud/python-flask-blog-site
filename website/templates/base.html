@@ -13,11 +13,15 @@
 
 <body class="d-flex flex-column min-vh-100 w-100">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+    <!-- Clear alert notifications automatically -->
     <script type="text/javascript">
         window.setTimeout(function() {
             $(".alert").fadeTo(500, 0) 
         }, 4000);
     </script>
+
+    <!-- Navbar area starts -->
     <nav class ="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -41,6 +45,9 @@
             </div> 
         </div>
     </nav>
+    <!-- Navbar area ends -->
+
+    <!-- Alerts messages area starts -->
     {% with messages = get_flashed_messages(with_categories = True) %}
     {% if messages%}
         {% for category, message in messages %}
@@ -58,6 +65,9 @@
         {% endfor %}
     {% endif %}
     {% endwith %}
+    <!-- Alerts messages area ends -->
+    
+    <!-- Main body content area starts -->
     <div class="container">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
@@ -65,6 +75,9 @@
         
     {% endblock %}
     </div>
+    <!-- Main body content area ends -->
+
+    <!-- Footer area starts -->
     <div class="container-fluid bg-dark mt-auto w-100 p-3 text-white text-center">
         <footer>
             <p>
@@ -73,6 +86,8 @@
             </p>
         </footer>
     </div>
+    <!-- Footer area ends -->
+    
 </body>
 
 

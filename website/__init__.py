@@ -16,7 +16,7 @@ def create_app():
     # --- Import the required modules / blueprints used specifically by this function:
     from website.views import views
     from website.auth import auth
-    from website.models import User, Post, Comment
+    from website.models import User, Post, Comment, Like
     
     # --- Setup the actual flask app and any required settings:
     app = Flask(__name__)
@@ -55,7 +55,6 @@ def create_app():
         return dict(year=current_year, 
                     company = company_name)
         
-    
     return app
 
 
