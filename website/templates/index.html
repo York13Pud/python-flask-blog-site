@@ -84,7 +84,16 @@
 
             <div class="card-footer d-flex justify-content-between align-items-center text-light bg-dark">
                 <h6>Created By: <a class="text-light" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
-                <h6><a class="text-light" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments ({{ post.comments | length }})</a></h6>
+                <h6>
+                    <a class="text-light" href="{{ url_for("views.like", post_id = post.id) }}">
+                        {% if post.likes | length == 0 %}
+                            <i class="bi bi-heart"></i> ({{post.likes | length }})</a>
+                        {% else %}
+                            <i class="bi bi-heart-fill"></i> ({{post.likes | length }})</a>
+                        {% endif %}
+                     | 
+                    <a class="text-light" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments ({{ post.comments | length }})</a>
+                </h6>
             </div>
         </div>
         <br />

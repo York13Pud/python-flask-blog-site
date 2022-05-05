@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required, current_user
 from website import db
-from website.models import Post, User, Comment
+from website.models import Post, User, Comment, Like
 
 
 # --- Setup the views Blueprint:
@@ -115,7 +115,7 @@ def create_comment(post_id):
 @views.route("/delete-comment/<int:comment_id>", methods=["GET"])
 @login_required
 def delete_comment(comment_id):
-    comment_to_delete = Comment.query.filter_by(id=comment_id).first()
+    comment_to_delete = Comment.query.filter_by(id = comment_id).first()
     
     if not comment_to_delete:
         flash(f"Comment {comment_id} does not exist.", category = "error")
@@ -127,5 +127,27 @@ def delete_comment(comment_id):
         db.session.delete(comment_to_delete)
         db.session.commit()
         flash(f"Comment {comment_id} has been deleted.", category = "success")
+    
+    return redirect(url_for("views.home"))
+
+@views.route("/like/<int:post_id>", methods=["GET"])
+@login_required
+def like(post_id):
+    post = Post.query.filter_by(id = post_id).first()
+    like = Like.query.filter_by(author = current_user.id, post_id = post_id).first()
+    
+    if not post:
+        flash(f"Post does not exist.", category = "error")
+        
+    elif like:
+        db.session.delete(like)
+        db.session.commit()
+        flash(f"Your like has been removed.", category = "success")
+        
+    else:
+        like = Like(author = current_user.id, post_id = post_id)
+        db.session.add(like)
+        db.session.commit()
+        flash(f"Your like has been added.", category = "success")
     
     return redirect(url_for("views.home"))
