@@ -141,13 +141,11 @@ def like(post_id):
     elif like:
         db.session.delete(like)
         db.session.commit()
-        flash(f"Your like has been removed.", category = "success")
         
     else:
         like = Like(author = current_user.id, post_id = post_id)
         db.session.add(like)
         db.session.commit()
-        flash(f"Your like has been added.", category = "success")
     
     return jsonify( 
                    {"likes": len(post.likes), 
