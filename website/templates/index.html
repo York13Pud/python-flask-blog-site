@@ -28,8 +28,6 @@
                 <div class="card-text">
                     <p>{{ post.text }}</p>
                     
-                    
-
                     <div class="collapse" id="comment-{{ post.id }}">
                         {% for comment in post.comments%}
                             <div class="card">
@@ -86,12 +84,15 @@
             <div class="card-footer d-flex justify-content-between align-items-center text-light bg-dark">
                 <h6>Created By: <a class="text-light text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
                 <h6>
-                    <a class="text-light text-decoration-none" href="{{ url_for("views.like", post_id = post.id) }}">
-                        {% if post.likes | length == 0 %}
-                            <i class="fa-regular fa-heart"></i> {{post.likes | length }}</a>
-                        {% else %}
-                            <i class="fa-solid fa-heart"></i> {{post.likes | length }}</a>
-                        {% endif %} 
+                    
+                    
+                    {% if post.likes | length == 0 %}
+                        <i class="fa-regular fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                    {% else %}
+                        <i class="fa-solid fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                    {% endif %} 
+                    <span id="likes-count-{{ post.id }}">{{post.likes | length }}</span>
+
                     <span class="link-break-spacing">|</span>
                     <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments {{ post.comments | length }}</a>
                 </h6>
