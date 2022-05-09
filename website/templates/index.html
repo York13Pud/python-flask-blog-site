@@ -11,7 +11,7 @@
         <br />
 
         <div class="card border-dark">
-            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom bg-dark">
+            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom bg-success">
                 <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
                     <h6>{{ post.title }}</h6>
                 </a>
@@ -26,62 +26,12 @@
             </div>
             <div class="card-body justify-content-between align-items-center">
                 <div class="card-text">
-                    <p>{{ post.text }}</p>
-                    
-                    <div class="collapse" id="comment-{{ post.id }}">
-                        {% for comment in post.comments%}
-                            <div class="card">
-                                <div class="" id="comments-expanded-{{ post.id }}">
-                                    <div class="card-header bg-secondary text-light d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h6><a class="text-light" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }} Wrote:</a></h6>
-                                        </div>
-                                        
-                                        {% if user.id == comment.author or user.id == post.author %}
-                                        <div>
-                                            <h6><span class="bi bi-x-square">  </span><a class="text-light" href="{{ url_for("views.delete_comment", comment_id = comment.id) }}">Delete</a></h6>
-                                        </div>
-                                        {% endif %}
-
-
-                                    </div>
-                                    <div class="card-body">
-                                        <p>{{ comment.text }}</p>
-                                    </div>
-                                    <div class="card-footer bg-secondary text-light d-flex justify-content-between align-items-center">
-                                        <h6>Comment Posted: {{ comment.date_created }}</h6>
-                                    </div>
-                                        
-                                </div>
-                            </div>
-                            <br>
-                        {% endfor %}
-                    </div>
-                    
-
-
-                    <p class="text">
-                    {% if post.comments | length > 0 %}
-                        <a data-bs-toggle="collapse" href="#comment-{{ post.id }}" role="button">
-                            <small class="text-black">Show Comments ({{ post.comments | length }})</small>
-                        </a>
-                    {% else %}
-                        <small class="text-muted">No comments for this article</small>
-                    {% endif %}
-                    </p>
-
-                    <hr>
-
-                    <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
-                        <input class="form-control" id="text" name="text" placeholder="Enter your comment here." />
-                        <button class="btn btn-dark" type="submit">Submit</button>
-                    </form>
-                
+                    <p>{{ post.text }}</p>                
                 </div>
             </div>
             
 
-            <div class="card-footer d-flex justify-content-between align-items-center text-light bg-dark">
+            <div class="card-footer d-flex justify-content-between align-items-center text-light bg-secondary">
                 <h6>Created By: <a class="text-light text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
                 <h6>
                     
@@ -90,11 +40,19 @@
                         <i class="fa-regular fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
                     {% else %}
                         <i class="fa-solid fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-                    {% endif %} 
-                    <span id="likes-count-{{ post.id }}">{{post.likes | length }}</span>
+                    {% endif %}
+                    <span id="likes-count-{{ post.id }}">{{ post.likes | length }}</span>
 
                     <span class="link-break-spacing">|</span>
-                    <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">Comments {{ post.comments | length }}</a>
+                    <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
+                    
+                    {% if post.comments | length == 0 %}
+                        <i class="fa-regular fa-comment"></i> {{ post.comments | length }}
+                    {% else %}
+                        <i class="fa-solid fa-comment"></i> {{ post.comments | length }}
+                        {% endif %}
+                    </a>
+
                 </h6>
             </div>
         </div>

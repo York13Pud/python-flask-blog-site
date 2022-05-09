@@ -4,6 +4,18 @@
     font-size: 18px;
     }
 
-body {
-    padding-top: 70px; 
+#navbar-container {
+    height: 250px;
+    background: url(../images/base-header-2.jpg) no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    z-index:2;
 }
+
+.main {
+    position:relative;
+    margin-top: 260px;
+  }
