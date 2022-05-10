@@ -10,31 +10,22 @@
     
         <br />
 
-        <div class="card border-dark">
-            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom bg-success">
-                <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
-                    <h6>{{ post.title }}</h6>
+        <div class="card border-0">
+            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom border-0 bg-white">
+                <a class="text-dark text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
+                    <h2 class="post-title">{{ post.title }}</h2>
                 </a>
-                <h6 class="text-light">
-                    {% if post.author == user.id%}
-                    <span class="bi bi-pencil">  </span><a class="text-light text-decoration-none" href="{{ url_for("views.edit_post", post_id = post.id) }}">Edit</a>
-                    <span class="link-break-spacing">|</span>
-                    <span class="bi bi-x-square">  </span><a class="text-light text-decoration-none" href="{{ url_for("views.delete_post", post_id = post.id) }}">Delete</a>
-                    {% endif %}
-                </h6>
-
             </div>
-            <div class="card-body justify-content-between align-items-center">
-                <div class="card-text">
+            <div class="card-body justify-content-between align-items-center border-0">
+                <div class="card-text border-0">
                     <p>{{ post.text }}</p>                
                 </div>
             </div>
             
 
-            <div class="card-footer d-flex justify-content-between align-items-center text-light bg-secondary">
-                <h6>Created By: <a class="text-light text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }} at {{ post.date_created }}</a></h6>
+            <div class="card-footer d-flex justify-content-between align-items-center text-secondary bg-white border-0">
+                <h6>Created By: <a class="text-secondary text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
                 <h6>
-                    
                     
                     {% if post.likes | length == 0 %}
                         <i class="fa-regular fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
@@ -44,7 +35,8 @@
                     <span id="likes-count-{{ post.id }}">{{ post.likes | length }}</span>
 
                     <span class="link-break-spacing">|</span>
-                    <a class="text-light text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
+                    
+                    <a class="text-secondary text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}#comments">
                     
                     {% if post.comments | length == 0 %}
                         <i class="fa-regular fa-comment"></i> {{ post.comments | length }}
@@ -56,7 +48,7 @@
                 </h6>
             </div>
         </div>
-        <br />
+        <hr>
     {% endfor %}
 </div>
 

@@ -20,7 +20,9 @@ def home():
 
 @views.route("/post/<int:post_id>", methods=["GET"])
 def read_post(post_id):
-    return redirect(url_for("views.home"))
+    post = Post.query.filter_by(id=post_id).first()
+    print(post)
+    return render_template("post.html", user = current_user, post = post)
 
 
 @views.route("/posts/<string:username>")
@@ -154,9 +156,9 @@ def like(post_id):
                    )
     
     
-@views.route("/testing")
-def testing():
-    """This is the view for the home page."""
-    posts = Post.query.all()
+# @views.route("/testing")
+# def testing():
+#     """This is the view for the home page."""
+#     posts = Post.query.all()
     
-    return render_template("testing.html", user = current_user, posts = posts)
+#     return render_template("testing.html", user = current_user, posts = posts)
