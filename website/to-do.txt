@@ -1,0 +1,11 @@
+General:
+- Apply theme to the site.
+
+post.html:
+- work out the layout for the post content.
+- work out the layout for the comments section.
+- DONE: Redirect back to the page when a comment is added rather than going to the home page.
+
+create_post.html:
+- Change article content box to a more html friendly formatter input box.
+

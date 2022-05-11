@@ -1,7 +1,9 @@
+from time import strftime
 from flask import Blueprint, render_template, flash, request, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from website import db
 from website.models import Post, User, Comment, Like
+from datetime import datetime
 
 # --- Setup the views Blueprint:
 views = Blueprint(name = "views",
@@ -22,6 +24,10 @@ def home():
 def read_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
     print(post)
+    post_date = post.date_created
+    year=post_date.strftime("%d %B, %Y")
+    print(year)
+    
     return render_template("post.html", user = current_user, post = post)
 
 
@@ -109,8 +115,9 @@ def create_comment(post_id):
         
         else:
             flash("Post does not exist.", category = "error")
+        print(post_id)
         
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.read_post", post_id = post_id))
 
 
 @views.route("/delete-comment/<int:comment_id>", methods=["GET"])
@@ -130,6 +137,7 @@ def delete_comment(comment_id):
         flash(f"Comment {comment_id} has been deleted.", category = "success")
     
     return redirect(url_for("views.home"))
+
 
 @views.route("/like/<int:post_id>", methods=["POST"])
 @login_required

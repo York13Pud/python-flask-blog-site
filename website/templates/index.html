@@ -32,16 +32,17 @@
                     {% else %}
                         <i class="fa-solid fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
                     {% endif %}
+                    
                     <span id="likes-count-{{ post.id }}">{{ post.likes | length }}</span>
 
                     <span class="link-break-spacing">|</span>
                     
                     <a class="text-secondary text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}#comments">
                     
-                    {% if post.comments | length == 0 %}
-                        <i class="fa-regular fa-comment"></i> {{ post.comments | length }}
-                    {% else %}
-                        <i class="fa-solid fa-comment"></i> {{ post.comments | length }}
+                        {% if post.comments | length == 0 %}
+                            <i class="fa-regular fa-comment"></i> {{ post.comments | length }}
+                        {% else %}
+                            <i class="fa-solid fa-comment"></i> {{ post.comments | length }}
                         {% endif %}
                     </a>
 

@@ -4,7 +4,13 @@
     font-size: 18px;
     }
 
-#navbar-container {
+
+.post-function-spacing {
+    padding-left: 10px;
+    }
+
+
+    #navbar-container {
     height: 250px;
     background: url(../images/base-header-2.jpg) no-repeat;
     background-size: cover;
