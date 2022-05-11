@@ -9,22 +9,22 @@
         <h1>{{ post.title }}</h1>
          
         {% if post.author == user.id %}
-            <h6 class="text-dark text-bottom">
+            <h5 class="text-dark text-bottom">
                 <span class="post-function-spacing"></span>
                 <a class="text-primary text-decoration-none" href="{{ url_for("views.edit_post", post_id = post.id) }}"><span class="bi bi-pencil-fill" title="Edit Post"></span></a>
-            </h6>
-            <h6 class="text-dark text-top">
+            </h5>
+            <h5 class="text-dark text-top">
                 <span class="post-function-spacing"></span>
                 <a class="text-danger text-decoration-none" href="{{ url_for("views.delete_post", post_id = post.id) }}"><span class="bi bi-x-square-fill" title="Delete Post"></span></a>
-            </h6>
+            </h5>
         {% endif %}
 
     </div>
-    <h6 class="text-decoration-none small text-muted fst-italic">Created By: <a class="text-decoration-none small text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
-    <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post.date_created }}</h6>
+    <h6 class="text-decoration-none small text-muted fst-italic">Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
+    <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post_date }}</h6>
     
     <hr />
-    <p>{{ post.text }}</p>
+    <p>{{ post.text | safe() }}</p>
     <hr />                
     <h6>        
         {% if post.likes | length == 0 %}
@@ -46,7 +46,7 @@
 </div>
 
 <hr />        
-<div id="comments">
+<div>
     <h3>Comments</h3>
     <hr />
     <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
@@ -61,17 +61,27 @@
                 {% for comment in post.comments%}
                         <div class="card">
                             <div id="comments-expanded-{{ post.id }}">
-                                <div class="card-header bg-secondary text-light d-flex justify-content-between align-items-center">
+                                <div class="card-header border-0 bg-light text-dark d-flex justify-content-between align-items-center">
                                     <div>
-                                        <h6><a class="text-light" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }} Wrote:</a></h6>
+                                        <h6><a class="text-dark" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }} Wrote:</a></h6>
                                     </div>
                                     
                                     {% if user.id == comment.author or user.id == post.author %}
-                                    <div>
-                                        <h6><span class="bi bi-x-square">  </span><a class="text-light" href="{{ url_for("views.delete_comment", comment_id = comment.id) }}">Delete</a></h6>
+                                    <div class="d-flex">
+                                        <span class="post-function-spacing"></span>
+                                        <h5>
+                                            <a class="text-primary text-decoration-none" href="{{ url_for("views.edit_comment", comment_id=comment.id) }}">
+                                                <span class="bi bi-pencil-fill" title="Edit Comment"></span>
+                                            </a>
+                                        </h5>
+                                        <span class="post-function-spacing"></span>
+                                        <h5>
+                                            <a class="text-danger" href="{{ url_for("views.delete_comment", comment_id = comment.id) }}">
+                                            <span class="bi bi-x-square-fill" title="Delete Comment"></span>
+                                            </a>
+                                        </h5>
                                     </div>
                                     {% endif %}
-
                                 </div>
                                 <div class="card-body">
                                     <p>{{ comment.text }}</p>

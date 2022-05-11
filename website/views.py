@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, flash, request, redirect, url_for,
 from flask_login import login_required, current_user
 from website import db
 from website.models import Post, User, Comment, Like
-from datetime import datetime
+from website.forms import CreatePostForm
 
 # --- Setup the views Blueprint:
 views = Blueprint(name = "views",
@@ -23,12 +23,10 @@ def home():
 @views.route("/post/<int:post_id>", methods=["GET"])
 def read_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
-    print(post)
-    post_date = post.date_created
-    year=post_date.strftime("%d %B, %Y")
-    print(year)
-    
-    return render_template("post.html", user = current_user, post = post)
+        
+    post_date=post.date_created.strftime("%d %B, %Y")
+     
+    return render_template("post.html", user = current_user, post = post, post_date = post_date)
 
 
 @views.route("/posts/<string:username>")
@@ -67,8 +65,10 @@ def create_post():
             flash("Post created.", category = "success")
             
             return redirect(url_for("views.home"))
+    else:
+        form = CreatePostForm()
             
-    return render_template("create_post.html", user=current_user)
+    return render_template("create_post.html", user=current_user, form=form)
 
 
 @views.route("/delete/<int:post_id>", methods=["GET"])
@@ -118,6 +118,12 @@ def create_comment(post_id):
         print(post_id)
         
     return redirect(url_for("views.read_post", post_id = post_id))
+
+
+@views.route("/edit-comment/<int:comment_id>", methods=["GET"])
+@login_required
+def edit_comment(comment_id):
+    return redirect(url_for("views.home"))
 
 
 @views.route("/delete-comment/<int:comment_id>", methods=["GET"])

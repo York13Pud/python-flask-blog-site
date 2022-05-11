@@ -1,9 +1,10 @@
 # --- Import the required modules:
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
-
+from flask_ckeditor import CKEditor
 
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -16,6 +17,7 @@ def create_app():
     # --- Import the required modules / blueprints used specifically by this function:
     from website.views import views
     from website.auth import auth
+    from website.forms import CreatePostForm
     from website.models import User, Post, Comment, Like
     
     # --- Setup the actual flask app and any required settings:
@@ -25,6 +27,11 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
+    
+    # --- Setup and initialise ckeditor:
+    ckeditor = CKEditor()
+    ckeditor.init_app(app)
+    Bootstrap(app)
     
     # --- Initialise and create the database (if it's not found):
     db.init_app(app)
@@ -36,6 +43,7 @@ def create_app():
     app.register_blueprint(auth, url_prefix = "/")
         
     
+    # --- Setup and initialise LoginManager:
     login_manager = LoginManager()
     login_manager.login_view = "auth.login" # If not logged in, which view should you be redirected to.
     login_manager.init_app(app)
