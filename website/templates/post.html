@@ -1,12 +1,14 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}welcome {{ post.title }}{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
 
 <div id="posts">
-    <div class="d-flex align-items-baseline">
-        <h1>{{ post.title }}</h1>
+    <div class="d-flex align-items-baseline w-100">
+        <div class="d-flex align-items-baseline w-100">
+            <h1>{{ post.title }}</h1>
          
         {% if post.author == user.id %}
             <h5 class="text-dark text-bottom">
@@ -18,50 +20,58 @@
                 <a class="text-danger text-decoration-none" href="{{ url_for("views.delete_post", post_id = post.id) }}"><span class="bi bi-x-square-fill" title="Delete Post"></span></a>
             </h5>
         {% endif %}
-
+        </div>
+        <div class="d-flex justify-content-end w-100">  
+            <h6 title="Likes">        
+                {% if post.likes | length == 0 %}
+                    <i class="fa-regular fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                {% else %}
+                    <i class="fa-solid fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                {% endif %} 
+                <span id="likes-count-{{ post.id }}">{{post.likes | length }}</span>
+            </h6>
+            <h6 class="link-break-spacing">
+                
+            </h6>
+            <h6 title="Comments">
+                <a class="text-decoration-none text-dark" href="#comments">
+                    {% if post.comments | length == 0 %}
+                        <i class="fa-regular fa-comment text-success"></i> {{ post.comments | length }}
+                    {% else %}
+                        <i class="fa-solid fa-comment text-success"></i> {{ post.comments | length }}
+                    {% endif %}
+                </a>
+            </h6>
+        </div>
     </div>
     <h6 class="text-decoration-none small text-muted fst-italic">Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
     <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post_date }}</h6>
     
     <hr />
     <p>{{ post.text | safe() }}</p>
-    <hr />                
-    <h6>        
-        {% if post.likes | length == 0 %}
-            <i class="fa-regular fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-        {% else %}
-            <i class="fa-solid fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-        {% endif %} 
-        <span id="likes-count-{{ post.id }}">{{post.likes | length }}</span>
 
-        <span class="link-break-spacing">|</span>
-        <a class="text-decoration-none text-dark" href="{{ url_for("views.read_post", post_id = post.id) }}#comments">
-            {% if post.comments | length == 0 %}
-                <i class="fa-regular fa-comment text-success"></i> {{ post.comments | length }}
-            {% else %}
-                <i class="fa-solid fa-comment text-success"></i> {{ post.comments | length }}
-            {% endif %}
-        </a>
-    </h6>
 </div>
 
 <hr />        
 <div>
-    <h3>Comments</h3>
+    <h3 id="comments">Comments ({{ post.comments | length }})</h3>
     <hr />
-    <form class="input-group" method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
-        <input class="form-control" id="text" name="text" placeholder="Enter your comment here." />
-        <button class="btn btn-dark" type="submit">Submit</button>
+    {{ ckeditor.load(pkg_type="basic") }}
+    {{ ckeditor.config(name='body') }}
+    <form method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
+        {{ comment_form.text }}
+        {{ wtf.form_field(comment_form.submit, button_map={'submit':'dark'}) }}
     </form>
     <hr />
+
 
     <div>
         {% if post.comments | length > 0 %}
             <!-- comments section starts -->
                 {% for comment in post.comments%}
-                        <div class="card">
+                        <div class="card border-2">
                             <div id="comments-expanded-{{ post.id }}">
-                                <div class="card-header border-0 bg-light text-dark d-flex justify-content-between align-items-center">
+                                <div class="card-header border-0 bg-white text-dark d-flex justify-content-between align-items-center">
                                     <div>
                                         <h6><a class="text-dark" href="{{ url_for("views.posts", username = comment.user.username) }}"> {{ comment.user.username }} Wrote:</a></h6>
                                     </div>
@@ -76,7 +86,7 @@
                                         </h5>
                                         <span class="post-function-spacing"></span>
                                         <h5>
-                                            <a class="text-danger" href="{{ url_for("views.delete_comment", comment_id = comment.id) }}">
+                                            <a class="text-danger" href="{{ url_for("views.delete_comment", post_id = post.id, comment_id = comment.id) }}">
                                             <span class="bi bi-x-square-fill" title="Delete Comment"></span>
                                             </a>
                                         </h5>
@@ -84,9 +94,9 @@
                                     {% endif %}
                                 </div>
                                 <div class="card-body">
-                                    <p>{{ comment.text }}</p>
+                                    <p>{{ comment.text | safe() }}</p>
                                 </div>
-                                <div class="card-footer bg-secondary text-light d-flex justify-content-between align-items-center">
+                                <div class="border-0 card-footer text-decoration-none small text-muted fst-italic text-muted justify-content-between">
                                     <h6>Comment Posted: {{ comment.date_created }}</h6>
                                 </div>
 
@@ -101,8 +111,6 @@
         
         {% endif %}
         </div>
-
-    
 
 </div>
 

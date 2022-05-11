@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, flash, request, redirect, url_for,
 from flask_login import login_required, current_user
 from website import db
 from website.models import Post, User, Comment, Like
-from website.forms import CreatePostForm
+from website.forms import CreatePostForm, CreateCommentForm
 
 # --- Setup the views Blueprint:
 views = Blueprint(name = "views",
@@ -22,11 +22,16 @@ def home():
 
 @views.route("/post/<int:post_id>", methods=["GET"])
 def read_post(post_id):
-    post = Post.query.filter_by(id=post_id).first()
-        
+    post = Post.query.filter_by(id=post_id).first()    
     post_date=post.date_created.strftime("%d %B, %Y")
-     
-    return render_template("post.html", user = current_user, post = post, post_date = post_date)
+    
+    comment_form = CreateCommentForm()
+    
+    return render_template("post.html", 
+                           user = current_user, 
+                           post = post, 
+                           post_date = post_date, 
+                           comment_form = comment_form)
 
 
 @views.route("/posts/<string:username>")
@@ -115,7 +120,7 @@ def create_comment(post_id):
         
         else:
             flash("Post does not exist.", category = "error")
-        print(post_id)
+            
         
     return redirect(url_for("views.read_post", post_id = post_id))
 
@@ -126,9 +131,9 @@ def edit_comment(comment_id):
     return redirect(url_for("views.home"))
 
 
-@views.route("/delete-comment/<int:comment_id>", methods=["GET"])
+@views.route("/delete-comment/<int:post_id>/<int:comment_id>", methods=["GET"])
 @login_required
-def delete_comment(comment_id):
+def delete_comment(post_id, comment_id):
     comment_to_delete = Comment.query.filter_by(id = comment_id).first()
     
     if not comment_to_delete:
@@ -142,7 +147,7 @@ def delete_comment(comment_id):
         db.session.commit()
         flash(f"Comment {comment_id} has been deleted.", category = "success")
     
-    return redirect(url_for("views.home"))
+    return redirect(url_for("views.read_post", post_id = post_id))
 
 
 @views.route("/like/<int:post_id>", methods=["POST"])

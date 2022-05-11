@@ -17,7 +17,7 @@ def create_app():
     # --- Import the required modules / blueprints used specifically by this function:
     from website.views import views
     from website.auth import auth
-    from website.forms import CreatePostForm
+    from website.forms import CreatePostForm, CreateCommentForm
     from website.models import User, Post, Comment, Like
     
     # --- Setup the actual flask app and any required settings:
@@ -32,6 +32,7 @@ def create_app():
     ckeditor = CKEditor()
     ckeditor.init_app(app)
     Bootstrap(app)
+    
     
     # --- Initialise and create the database (if it's not found):
     db.init_app(app)
