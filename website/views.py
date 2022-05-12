@@ -1,9 +1,9 @@
-from time import strftime
 from flask import Blueprint, render_template, flash, request, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from website import db
 from website.models import Post, User, Comment, Like
 from website.forms import CreatePostForm, CreateCommentForm
+from sqlalchemy import desc
 
 # --- Setup the views Blueprint:
 views = Blueprint(name = "views",
@@ -15,8 +15,9 @@ views = Blueprint(name = "views",
 @views.route("/home")
 def home():
     """This is the view for the home page."""
-    posts = Post.query.all()
+    #posts = Post.query.all()
     
+    posts = Post.query.order_by(desc(Post.date_created)).all()
     return render_template("index.html", user = current_user, posts = posts)
 
 
@@ -38,12 +39,13 @@ def read_post(post_id):
 def posts(username):
     """This is the view for a particular user / authors blog posts."""
     user = User.query.filter_by(username = username).first()
+    posts = Post.query.filter_by(author = user.id).order_by(desc(Post.date_created)).all()
     
     if not user:
         flash(f"Username does not exist.", category = "error")
         return redirect(url_for("views.home"))
     
-    posts = user.posts
+    #posts = user.posts
         
     return render_template("index.html", user = current_user, posts = posts)
 

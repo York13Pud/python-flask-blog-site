@@ -1,11 +1,39 @@
 General:
 - Apply theme to the site.
+- When deleting a post or comment, add a confirmation option.
+- Have the collapsable menu have a dark background instead of transparent.
+
 
 post.html:
-- work out the layout for the post content.
-- work out the layout for the comments section.
-- DONE: Redirect back to the page when a comment is added rather than going to the home page.
+- DONE: work out the layout for the post content.
+- DONE: work out the layout for the comments section.
+- Newest comments at the top.
+- DONE: Redirect back to the post when a comment is added rather than going to the home page.
+- Create edit post page.
+- Create edit comment page.
+
 
 create_post.html:
-- Change article content box to a more html friendly formatter input box.
+- DONE: Change article content box to a more html friendly formatter input box.
+- Add additional fields once the database schema has been updated.
+- Undetermined: Add an option to upload an image for page header.
 
+
+index.html / home
+- DONE: Newest posts at the top.
+- Lazy load the page to reduce render time.
+
+
+my artlicles
+- Newest posts at the top.
+- Lazy load the page to reduce render time.
+
+
+Database:
+- Add article overview field.
+- Undetermined: Add an option to upload an image for page header.
+- Change password encryption to salted sha-256.
+
+
+Account Management:
+- Allow user to change password.
