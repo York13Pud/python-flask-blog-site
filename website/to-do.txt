@@ -7,7 +7,7 @@ General:
 post.html:
 - DONE: work out the layout for the post content.
 - DONE: work out the layout for the comments section.
-- Newest comments at the top.
+- DONE: Newest comments at the top.
 - DONE: Redirect back to the post when a comment is added rather than going to the home page.
 - Create edit post page.
 - Create edit comment page.

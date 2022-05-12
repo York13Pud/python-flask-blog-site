@@ -175,11 +175,3 @@ def like(post_id):
                     "liked": current_user.id in map(lambda x: x.author, post.likes) 
                     }
                    )
-    
-    
-# @views.route("/testing")
-# def testing():
-#     """This is the view for the home page."""
-#     posts = Post.query.all()
-    
-#     return render_template("testing.html", user = current_user, posts = posts)
