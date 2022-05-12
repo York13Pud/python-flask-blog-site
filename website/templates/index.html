@@ -5,17 +5,18 @@
 {% block content %}
 
 <div id="posts">
-    
+
     {% for post in posts %}
     
         <br />
 
-        <div class="card border-0">
+        <div class="card border-0 ">
             <div class="card-header d-flex justify-content-between align-items-center align-text-bottom border-0 bg-white">
                 <a class="text-dark text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
                     <h2 class="post-title">{{ post.title }}</h2>
                 </a>
             </div>
+
             <div class="card-body justify-content-between align-items-center border-0">
                 <div class="card-text border-0">
                     <p>{{ post.text | safe() }}</p>                
@@ -25,8 +26,7 @@
 
             <div class="card-footer d-flex justify-content-between align-items-center text-secondary bg-white border-0">
                 <h6>Created By: <a class="text-secondary text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a> at {{ post.date_created }}</h6>
-                <h6>
-                    
+                <h6>    
                     {% if post.likes | length == 0 %}
                         <i class="fa-regular fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
                     {% else %}
@@ -45,7 +45,6 @@
                             <i class="fa-solid fa-comment"></i> {{ post.comments | length }}
                         {% endif %}
                     </a>
-
                 </h6>
             </div>
         </div>

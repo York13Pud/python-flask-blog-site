@@ -2,15 +2,15 @@
     padding-right: 6px;
     padding-left: 6px;
     font-size: 18px;
-    }
+}
 
 
 .post-function-spacing {
     padding-left: 10px;
-    }
+}
 
 
-    #navbar-container {
+#navbar-container {
     height: 250px;
     background: url(../images/base-header-2.jpg) no-repeat;
     background-size: cover;
@@ -21,7 +21,8 @@
     z-index:2;
 }
 
+
 .main {
     position:relative;
     margin-top: 260px;
-  }
+}
