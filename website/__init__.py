@@ -6,6 +6,7 @@ from os import path
 from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 
+
 db = SQLAlchemy()
 DB_NAME = "database.db"
 
@@ -17,8 +18,9 @@ def create_app():
     # --- Import the required modules / blueprints used specifically by this function:
     from website.views import views
     from website.auth import auth
-    from website.forms import CreatePostForm, CreateCommentForm
+    from website.forms import CreatePostForm, CreateCommentForm, RegisterAccountForm, LoginForm
     from website.models import User, Post, Comment, Like
+    
     
     # --- Setup the actual flask app and any required settings:
     app = Flask(__name__)
@@ -48,6 +50,7 @@ def create_app():
     login_manager = LoginManager()
     login_manager.login_view = "auth.login" # If not logged in, which view should you be redirected to.
     login_manager.init_app(app)
+    
     
     @login_manager.user_loader
     def load_user(id):

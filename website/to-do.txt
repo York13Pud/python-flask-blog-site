@@ -29,7 +29,7 @@ index.html / home
 
 my artlicles
 - DONE: Newest posts at the top.
-- Lazy load the page to reduce render time.
+- Switch to manual WTForm instead of Quickforms.
 
 
 Database:
@@ -41,3 +41,13 @@ Database:
 Account Management:
 - Allow user to change password.
 - Allow user to changes email address.
+
+
+login.html:
+- Change form to WTForms.
+- Apply site theme.
+
+
+register.html:
+- Change form to WTForms.
+- Apply site theme.
