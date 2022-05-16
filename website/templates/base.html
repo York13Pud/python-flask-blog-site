@@ -53,6 +53,12 @@
                         {% if user.is_authenticated %}
                             <a class="nav-item nav-link text-white" href="{{ url_for("views.posts", username = current_user.username) }}"><span class="bi bi-list-ul"></span> My Articles</a>
                             <a class="nav-item nav-link text-white" href="{{ url_for("views.create_post") }}"><span class="bi bi-pencil"></span> Create Article</a>
+                            {% if edit_menu == True %}
+                                {% if post.author == user.id %}
+                                    <a class="nav-item nav-link text-white" href="{{ url_for("views.delete_post", post_id = post.id) }}"><span class="bi bi-x-square" title="Delete Article"></span> Delete Article</a>
+                                    <a class="nav-item nav-link text-white" href="{{ url_for("views.edit_post", post_id = post.id) }}"><span class="bi bi-pencil-fill" title="Edit Article"></span> Edit Article</a>
+                                {% endif %}
+                            {% endif %}
                             <a class="nav-item nav-link text-white" href="{{ url_for("auth.logout") }}"><span class="bi bi-box-arrow-left"></span> Logout</a>
                         {% else %}
                             <a class="nav-item nav-link text-white" href="{{ url_for("auth.register") }}"><span class="bi bi-pencil"></span> Register</a>
@@ -66,7 +72,7 @@
     <!-- Navbar area ends -->
     
     <div class="dflex image-header-text-center" id="image-header-container">
-        <h1 class="text-white text-center">{{ company }}</h1>
+        <h1 class="text-white text-center">{{ header_title }}</h1>
     </div>
     
     <!-- Main body content area starts -->

@@ -24,12 +24,11 @@ create_post.html:
 
 index.html / home
 - DONE: Newest posts at the top.
-- Change like and comment icon colours.
+- DONE: Change like and comment icon colours.
 
 
 my articles
 - DONE: Newest posts at the top.
-- Switch to manual WTForm instead of Quickforms.
 
 
 Database:
@@ -45,9 +44,9 @@ Account Management:
 
 login.html:
 - Change form to WTForms.
-- Apply site theme.
+- DONE: Apply site theme.
 
 
 register.html:
 - Change form to WTForms.
-- Apply site theme.
+- DONE: Apply site theme.

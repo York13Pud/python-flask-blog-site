@@ -18,6 +18,8 @@ def login():
     
     login_form = LoginForm()
     
+    header_title = "Login"
+    
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
@@ -32,7 +34,7 @@ def login():
         else:
             flash("Email does not exist.", category = "error")
     
-    return render_template("login.html", user=current_user, form = login_form)
+    return render_template("login.html", user=current_user, form = login_form, header_title = header_title, edit_menu = False)
 
 
 @auth.route("/logout", methods = ["GET", "POST"])
@@ -46,6 +48,9 @@ def logout():
 @auth.route("/register", methods = ["GET", "POST"])
 def register():
     """This is the view for the register page. No parameters/arguments are defined/required."""
+    
+    header_title = "Register"
+    
     if request.method == "POST":
         email = request.form.get("email")
         username = request.form.get("username")
@@ -82,4 +87,4 @@ def register():
             return redirect(url_for("views.home"))
             
                            
-    return render_template("register.html", user = current_user)
+    return render_template("register.html", user = current_user, header_title = header_title, edit_menu = False)

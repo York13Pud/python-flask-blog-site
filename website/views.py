@@ -17,9 +17,11 @@ def home():
     """This is the view for the home page."""
     #posts = Post.query.all()
     
+    header_title = "Welcome To My Blog Site"
+    
     posts = Post.query.order_by(desc(Post.date_created)).all()
     
-    return render_template("index.html", user = current_user, posts = posts)
+    return render_template("index.html", user = current_user, posts = posts, header_title = header_title, edit_menu = False)
 
 
 @views.route("/post/<int:post_id>", methods=["GET"])
@@ -28,10 +30,16 @@ def read_post(post_id):
     
     comment_form = CreateCommentForm()
     
+    print(request.path)
+    print(request.url)
+    
     return render_template("post.html", 
                            user = current_user, 
-                           post = post, 
-                           comment_form = comment_form)
+                           post = post,
+                           header_title = post.title,
+                           comment_form = comment_form,
+                           edit_menu = True
+                           )
 
 
 @views.route("/posts/<string:username>")
@@ -44,9 +52,9 @@ def posts(username):
         flash(f"Username does not exist.", category = "error")
         return redirect(url_for("views.home"))
     
-    #posts = user.posts
+    header_title = "Your Current Articles"
         
-    return render_template("index.html", user = current_user, posts = posts)
+    return render_template("index.html", user = current_user, posts = posts, header_title = header_title, edit_menu = False)
 
 
 @views.route("/create-post", methods=["GET", "POST"])
@@ -73,8 +81,10 @@ def create_post():
             return redirect(url_for("views.home"))
     else:
         form = CreatePostForm()
+    
+    header_title = "Create A Post"
             
-    return render_template("create_post.html", user=current_user, form=form)
+    return render_template("create_post.html", user=current_user, form=form, header_title = header_title, edit_menu = False)
 
 
 @views.route("/delete/<int:post_id>", methods=["GET"])

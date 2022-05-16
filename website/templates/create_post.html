@@ -4,13 +4,9 @@
 {% block title %}Create A Post{% endblock %}
 
 {% block content %}
-<h1>Create A Post</h1>
-
-<br />
 
 {{ ckeditor.load() }}
 {{ ckeditor.config(name='body') }}
-
 
 
 {{ wtf.quick_form(form=form, novalidate=True, button_map={"submit":"dark"}) }}

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -8,19 +9,14 @@
 <div id="posts">
     <div class="d-flex align-items-baseline w-100">
         <div class="d-flex align-items-baseline w-100">
-            <h1>{{ post.title }}</h1>
+            <h6 class="text-decoration-none small text-muted fst-italic">
+                Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a>
+               <br />Published: {{ post.date_created.strftime("%d %B, %Y") }}
+            </h6>
          
-        {% if post.author == user.id %}
-            <h5 class="text-dark text-bottom">
-                <span class="post-function-spacing"></span>
-                <a class="text-primary text-decoration-none" href="{{ url_for("views.edit_post", post_id = post.id) }}"><span class="bi bi-pencil-fill" title="Edit Post"></span></a>
-            </h5>
-            <h5 class="text-dark text-top">
-                <span class="post-function-spacing"></span>
-                <a class="text-danger text-decoration-none" href="{{ url_for("views.delete_post", post_id = post.id) }}"><span class="bi bi-x-square-fill" title="Delete Post"></span></a>
-            </h5>
-        {% endif %}
+
         </div>
+
         <div class="d-flex justify-content-end w-100">  
             <h6 title="Likes">        
                 {% if post.likes | length == 0 %}
@@ -43,9 +39,8 @@
                 </a>
             </h6>
         </div>
+
     </div>
-    <h6 class="text-decoration-none small text-muted fst-italic">Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
-    <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post.date_created.strftime("%d %B, %Y") }}</h6>
     
     <hr />
     <p>{{ post.text | safe() }}</p>
