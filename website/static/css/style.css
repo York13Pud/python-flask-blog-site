@@ -28,6 +28,7 @@
     width: 250px;
     height: 150px;
     border : 0px;
+    
 }
 
 #collapsed-menu {
@@ -37,4 +38,9 @@
 .main {
     position:relative;
     margin-top: 350px;
+}
+
+.header-title-text {
+    font-size: 3em;
+    color: white;
 }

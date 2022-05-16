@@ -12,6 +12,6 @@ function like(postId){
                 likeButton.className = "fa-regular fa-heart text-danger"
             }
         })
-        .catch((e) => alert("Could not like the post."));
+        .catch((e) => alert("Please login to like the post."));
 
 }
