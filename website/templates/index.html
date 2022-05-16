@@ -29,7 +29,7 @@
                     
                 </h6>
                 <h6 title="Comments">
-                    <a class="text-decoration-none text-dark" href="#comments">
+                    <a class="text-decoration-none text-dark" href="{{ url_for("views.read_post", post_id = post.id) }}#comments">
                         {% if post.comments | length == 0 %}
                             <i class="fa-regular fa-comment text-success"></i> {{ post.comments | length }}
                         {% else %}
