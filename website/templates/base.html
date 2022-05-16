@@ -35,21 +35,19 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 
-
 <body class="d-flex flex-column min-vh-100 w-100">
 
-
     <!-- Navbar area starts -->
-    <div id="navbar-container">
-        <nav class ="navbar navbar-expand-lg fixed-top text-white" >
-            <div class="container-fluid">
+    <div>
+        <nav class ="navbar navbar-expand-lg fixed-top navbar-dark bg-dark text-white" >
+            <div class="container-fluid ">
                 <div class="d-flex align-items-start justify-content-start">
                     <h1 class="navbar-brand text-white text-center"><i class="bi bi-bootstrap"></i> {{ company }}</h1>
                 </div>
-                <button class="navbar-toggler text-white navbar-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="navbar-toggler text-black justify-content-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
+                    <span class="navbar-toggler-icon text-black"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-end navbar-dark" id="navbar">
+                <div class="collapse navbar-collapse justify-content-end" id="navbar">
                     <div class="navbar-nav">
                         <a class="nav-item nav-link text-white" href="{{ url_for("views.home") }}"><span class="bi bi-house"></span> Home</a>
                         {% if user.is_authenticated %}
@@ -66,29 +64,11 @@
         </nav>
     </div>
     <!-- Navbar area ends -->
- 
-
-    <!-- Alerts messages area starts -->
-    {% with messages = get_flashed_messages(with_categories = True) %}
-    {% if messages%}
-        {% for category, message in messages %}
-            {% if category == "error" %}
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" id="flashmessage">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            {% else %}
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    <!-- Alerts messages area ends -->
     
-
+    <div class="dflex image-header-text-center" id="image-header-container">
+        <h1 class="text-white text-center">{{ company }}</h1>
+    </div>
+    
     <!-- Main body content area starts -->
     <div class="container content w-75 main">
     
@@ -98,8 +78,6 @@
 
     </div>
     <!-- Main body content area ends -->
-
-
 
     <!-- Footer area starts -->
     <div class="container-fluid bg-dark mt-auto w-100 p-3 text-white text-center">
@@ -112,9 +90,6 @@
     </div>
     <!-- Footer area ends -->
 
-
 </body>
-
-
 
 </html>

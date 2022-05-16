@@ -18,20 +18,19 @@ def home():
     #posts = Post.query.all()
     
     posts = Post.query.order_by(desc(Post.date_created)).all()
+    
     return render_template("index.html", user = current_user, posts = posts)
 
 
 @views.route("/post/<int:post_id>", methods=["GET"])
 def read_post(post_id):
     post = Post.query.filter_by(id=post_id).first()    
-    post_date=post.date_created.strftime("%d %B, %Y")
     
     comment_form = CreateCommentForm()
     
     return render_template("post.html", 
                            user = current_user, 
                            post = post, 
-                           post_date = post_date, 
                            comment_form = comment_form)
 
 

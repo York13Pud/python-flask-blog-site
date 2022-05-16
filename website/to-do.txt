@@ -1,7 +1,7 @@
 General:
 - Apply theme to the site.
 - When deleting a post or comment, add a confirmation option.
-- Have the collapsable menu have a dark background instead of transparent.
+- DONE: Have the collapsible menu have a dark background instead of transparent.
 
 
 post.html:
@@ -11,7 +11,7 @@ post.html:
 - DONE: Redirect back to the post when a comment is added rather than going to the home page.
 - Create edit post page.
 - Create edit comment page.
-- Set comment entry to show only if logged in.
+- DONE: Set comment entry to show only if logged in.
 - Undetermined: Add likes for comments.
 
 
@@ -27,7 +27,7 @@ index.html / home
 - Change like and comment icon colours.
 
 
-my artlicles
+my articles
 - DONE: Newest posts at the top.
 - Switch to manual WTForm instead of Quickforms.
 

@@ -6,50 +6,56 @@
 
 <div id="posts">
 
-    {% for post in posts %}
-    
-        <br />
+{% for post in posts %}
 
-        <div class="card border-0 ">
-            <div class="card-header d-flex justify-content-between align-items-center align-text-bottom border-0 bg-white">
-                <a class="text-dark text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}">
-                    <h2 class="post-title">{{ post.title }}</h2>
-                </a>
-            </div>
-
-            <div class="card-body justify-content-between align-items-center border-0">
-                <div class="card-text border-0">
-                    <p>{{ post.text | safe() }}</p>                
-                </div>
-            </div>
+    <div class="card border-0 ">
+        
+        <div class="card-header d-flex justify-content-between align-items-center align-text-bottom border-0 bg-white">
+            <a class="text-dark text-decoration-none w-100" href="{{ url_for("views.read_post", post_id = post.id) }}">
+                <h2 class="post-title">{{ post.title }}</h2>
+            </a>                    
             
-
-            <div class="card-footer d-flex justify-content-between align-items-center text-secondary bg-white border-0">
-                <h6>Created By: <a class="text-secondary text-decoration-none" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a> at {{ post.date_created }}</h6>
-                <h6>    
+            <div class="d-flex justify-content-end w-100">  
+                <h6 title="Likes">        
                     {% if post.likes | length == 0 %}
-                        <i class="fa-regular fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                        <i class="fa-regular fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
                     {% else %}
-                        <i class="fa-solid fa-heart" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
-                    {% endif %}
-                    
-                    <span id="likes-count-{{ post.id }}">{{ post.likes | length }}</span>
+                        <i class="fa-solid fa-heart text-danger" id="like-button-{{ post.id }}" onclick="like({{ post.id }})"></i>
+                    {% endif %} 
+                    <span id="likes-count-{{ post.id }}">{{post.likes | length }}</span>
+                </h6>
 
-                    <span class="link-break-spacing">|</span>
+                <h6 class="link-break-spacing">
                     
-                    <a class="text-secondary text-decoration-none" href="{{ url_for("views.read_post", post_id = post.id) }}#comments">
-                    
+                </h6>
+                <h6 title="Comments">
+                    <a class="text-decoration-none text-dark" href="#comments">
                         {% if post.comments | length == 0 %}
-                            <i class="fa-regular fa-comment"></i> {{ post.comments | length }}
+                            <i class="fa-regular fa-comment text-success"></i> {{ post.comments | length }}
                         {% else %}
-                            <i class="fa-solid fa-comment"></i> {{ post.comments | length }}
+                            <i class="fa-solid fa-comment text-success"></i> {{ post.comments | length }}
                         {% endif %}
                     </a>
                 </h6>
             </div>
+            
         </div>
-        <hr>
-    {% endfor %}
+            
+        <div class="card-body justify-content-between align-items-center border-0">
+            <h6 class="text-decoration-none small text-muted fst-italic">Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
+            <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post.date_created.strftime("%d %B, %Y") }}</h6>
+            <hr />
+            
+            <div class="card-text border-0">                   
+                <p>{{ post.text | safe() }}</p>                
+                <hr>
+            </div>
+
+        </div>
+        
+    </div>
+    
+{% endfor %}
 </div>
 
 {% endblock %}

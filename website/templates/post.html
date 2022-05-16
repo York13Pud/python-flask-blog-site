@@ -45,7 +45,7 @@
         </div>
     </div>
     <h6 class="text-decoration-none small text-muted fst-italic">Author: <a class="text-decoration-none text-center text-muted fst-italic" href="{{ url_for("views.posts", username = post.user.username) }}"> {{ post.user.username }}</a></h6>
-    <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post_date }}</h6>
+    <h6 class="text-decoration-none small text-muted fst-italic">Published: {{ post.date_created.strftime("%d %B, %Y") }}</h6>
     
     <hr />
     <p>{{ post.text | safe() }}</p>
@@ -54,14 +54,18 @@
 
 <hr />        
 <div>
-    <h3 id="comments">Comments ({{ post.comments | length }})</h3>
+    <h4 id="comments">Comments ({{ post.comments | length }})</h4>
     <hr />
-    {{ ckeditor.load(pkg_type="basic") }}
-    {{ ckeditor.config(name='body') }}
-    <form method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
-        {{ comment_form.text }}
-        {{ wtf.form_field(comment_form.submit, button_map={'submit':'dark'}) }}
-    </form>
+    {% if user.is_authenticated %}
+        {{ ckeditor.load(pkg_type="basic") }}
+        {{ ckeditor.config(name='body') }}
+        <form method="POST" action="{{ url_for("views.create_comment", post_id = post.id) }}">
+            {{ comment_form.text }}
+            {{ wtf.form_field(comment_form.submit, button_map={'submit':'dark'}) }}
+        </form>
+    {% else %}
+        <h5 class="text-black">To post a comment, please <a class="text-black" href="{{ url_for("auth.login") }}">login</a></h5>
+    {% endif %}
     <hr />
 
 
@@ -107,7 +111,7 @@
             <!-- comments section ends -->
         
         {% else %}
-            <h3 class="text-dark">No comments for this article</h3>
+            <h5 class="text-dark">No comments for this article</h5>
         
         {% endif %}
         </div>
